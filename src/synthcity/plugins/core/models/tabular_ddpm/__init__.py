@@ -210,7 +210,8 @@ class TabDDPM(nn.Module, ValidationMixin):
     def generate(self, count: int, cond: Any = None) -> pd.DataFrame:
         self.diffusion.eval()
         if cond is not None:
-            cond = torch.tensor(cond, dtype=torch.long, device=self.device)
+            #cond = torch.tensor(cond, dtype=torch.long, device=self.device)
+            cond = torch.tensor(cond.values, dtype=torch.float, device=self.device)
         sample = self.diffusion.sample_all(count, cond).detach().cpu().numpy()
         df = pd.DataFrame(sample, columns=self.feature_names_out)
         return df[self.feature_names]
