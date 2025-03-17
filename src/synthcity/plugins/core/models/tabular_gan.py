@@ -191,8 +191,9 @@ class TabularGAN(torch.nn.Module):
             if len(cond.shape) == 1:
                 cond = cond.reshape(-1, 1)
 
-            self.cond_encoder = OneHotEncoder(handle_unknown="ignore").fit(cond)
-            cond = self.cond_encoder.transform(cond).toarray()
+            #self.cond_encoder = OneHotEncoder(handle_unknown="ignore").fit(cond)
+            #cond = self.cond_encoder.transform(cond).toarray()
+            cond = cond
 
             n_units_conditional = cond.shape[-1]
 
