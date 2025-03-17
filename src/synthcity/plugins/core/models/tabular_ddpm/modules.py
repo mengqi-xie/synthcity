@@ -86,10 +86,11 @@ class DiffusionModel(nn.Module):
         self.time_emb = TimeStepEmbedding(dim_emb, max_time_period)
 
         if conditional:
-            if self.num_classes > 0:
-                self.label_emb = nn.Embedding(self.num_classes, dim_emb)
-            elif self.num_classes == 0:  # regression
-                self.label_emb = nn.Linear(1, dim_emb)
+            #if self.num_classes > 0:
+            #    self.label_emb = nn.Embedding(self.num_classes, dim_emb)
+            #elif self.num_classes == 0:  # regression
+            #    self.label_emb = nn.Linear(1, dim_emb)
+            self.label_emb = nn.Linear(100, dim_emb) # time_horizons=100
 
         if not model_params:
             model_params = {}  # avoid changing the default dict
@@ -103,15 +104,16 @@ class DiffusionModel(nn.Module):
 
         self.model = get_model(model_type, model_params)
 
-    def forward(self, x: Tensor, t: Tensor, y: Optional[Tensor] = None) -> Tensor:
+    #def forward(self, x: Tensor, t: Tensor, y: Optional[Tensor] = None) -> Tensor:
+    def forward(self, x: torch.Tensor, t: torch.Tensor, y: Optional[torch.Tensor] = None) -> torch.Tensor:
         emb = self.time_emb(t)
         if self.has_label:
             if y is None:
                 raise ValueError("y must be provided if conditional is True")
-            if self.num_classes == 0:
-                y = y.reshape(-1, 1).float()
-            else:
-                y = y.squeeze().long()
+            #if self.num_classes == 0:
+            #    y = y.reshape(-1, 1).float()
+            #else:
+            #    y = y.squeeze().long()
             emb += self.emb_nonlin(self.label_emb(y))
         x = self.proj(x) + emb
         return self.model(x)
