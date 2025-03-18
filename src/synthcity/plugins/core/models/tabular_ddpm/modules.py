@@ -90,7 +90,7 @@ class DiffusionModel(nn.Module):
             #    self.label_emb = nn.Embedding(self.num_classes, dim_emb)
             #elif self.num_classes == 0:  # regression
             #    self.label_emb = nn.Linear(1, dim_emb)
-            self.label_emb = nn.Linear(100, dim_emb) # time_horizons=100
+            self.label_emb = nn.Linear(10, dim_emb) # time_horizons=10
 
         if not model_params:
             model_params = {}  # avoid changing the default dict
