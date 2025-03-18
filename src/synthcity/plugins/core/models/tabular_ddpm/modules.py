@@ -71,11 +71,13 @@ class DiffusionModel(nn.Module):
         num_classes: int = 0,
         emb_nonlin: Union[str, nn.Module] = "silu",
         max_time_period: int = 10000,
+        time_horizons: int = 100
     ) -> None:
         super().__init__()
         self.dim_t = dim_emb
         self.num_classes = num_classes
         self.has_label = conditional
+        self.time_horizons = time_horizons
 
         if isinstance(emb_nonlin, str):
             self.emb_nonlin = get_nonlin(emb_nonlin)
@@ -90,7 +92,7 @@ class DiffusionModel(nn.Module):
             #    self.label_emb = nn.Embedding(self.num_classes, dim_emb)
             #elif self.num_classes == 0:  # regression
             #    self.label_emb = nn.Linear(1, dim_emb)
-            self.label_emb = nn.Linear(10, dim_emb) # time_horizons=10
+            self.label_emb = nn.Linear(self.time_horizons, dim_emb) # time_horizons=10
 
         if not model_params:
             model_params = {}  # avoid changing the default dict
