@@ -71,7 +71,7 @@ class DiffusionModel(nn.Module):
         num_classes: int = 0,
         emb_nonlin: Union[str, nn.Module] = "silu",
         max_time_period: int = 10000,
-        dim_cond: int = 100
+        dim_cond: int = 101
     ) -> None:
         super().__init__()
         self.dim_t = dim_emb
