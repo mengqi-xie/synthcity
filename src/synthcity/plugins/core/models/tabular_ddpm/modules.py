@@ -77,7 +77,7 @@ class DiffusionModel(nn.Module):
         self.dim_t = dim_emb
         self.num_classes = num_classes
         self.has_label = conditional
-        self.time_horizons = time_horizons
+        self.dim_cond = dim_cond
 
         if isinstance(emb_nonlin, str):
             self.emb_nonlin = get_nonlin(emb_nonlin)
@@ -92,7 +92,7 @@ class DiffusionModel(nn.Module):
             #    self.label_emb = nn.Embedding(self.num_classes, dim_emb)
             #elif self.num_classes == 0:  # regression
             #    self.label_emb = nn.Linear(1, dim_emb)
-            self.label_emb = nn.Linear(self.time_horizons, dim_emb) # time_horizons=10
+            self.label_emb = nn.Linear(dim_cond, dim_emb)
 
         if not model_params:
             model_params = {}  # avoid changing the default dict
