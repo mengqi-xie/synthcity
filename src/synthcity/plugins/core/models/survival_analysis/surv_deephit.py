@@ -136,7 +136,8 @@ class DeephitSurvivalAnalysis(SurvivalAnalysisPlugin):
         time_bins = surv.columns
         for t, eval_time in enumerate(time_horizons):
             nearest = self._find_nearest(time_bins, eval_time)
-            preds_[:, t] = np.asarray(1 - surv[nearest])
+            #preds_[:, t] = np.asarray(1 - surv[nearest])
+            preds_[:, t] = np.asarray(surv[nearest])
 
         return pd.DataFrame(preds_, columns=time_horizons, index=X.index)
 
